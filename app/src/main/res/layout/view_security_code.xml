@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:weightSum="7">
+
+        <TextView
+            android:id="@+id/item_code_iv1"
+            style="@style/text_editStyle"/>
+
+
+        <TextView
+            android:id="@+id/item_code_iv2"
+            style="@style/text_editStyle"/>
+
+
+
+        <TextView
+            android:id="@+id/item_code_iv3"
+            style="@style/text_editStyle"/>
+
+
+
+        <TextView
+            android:id="@+id/item_code_iv4"
+            style="@style/text_editStyle"/>
+
+
+
+        <TextView
+            android:id="@+id/item_code_iv5"
+            style="@style/text_editStyle"/>
+
+
+
+        <TextView
+            android:id="@+id/item_code_iv6"
+            style="@style/text_editStyle"/>
+
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/item_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:inputType="number"/>
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="btnStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--短信验证方框 样式-->
+    <style name="text_editStyle" >
+        <item name="android:layout_height">47dp</item>
+        <item name="android:layout_width">47dp</item>
+        <item name="android:background">@drawable/bg_verify</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/holo_blue_bright</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!--有弧度布局 样式-->
+    <declare-styleable name="ShapeContainer">
+        <attr name="radiusContain" format="dimension"/>
+    </declare-styleable>
+
+</resources>
