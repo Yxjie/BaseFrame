@@ -23,7 +23,10 @@ public class RetrofitHelper {
 
     private static final String TAG = "RetrofitHelper";
 
-    private static final int DEFAULT_TIME_OUT = 5;//超时时间 5s
+    /**
+     * 超时时间 5s
+     */
+    private static final int DEFAULT_TIME_OUT = 5;
     private static final int DEFAULT_READ_TIME_OUT = 10;
     private Retrofit mRetrofit;
 
@@ -61,11 +64,12 @@ public class RetrofitHelper {
                 }
             }
         });
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         builder.addInterceptor(loggingInterceptor);
 
+        //开启缓存
+//        File httpCacheDirectory = new File(get.getExternalCacheDir(), "xxx");
+//        builder.cache(new Cache(httpCacheDirectory,10 * 1024 * 1024));
 
         mRetrofit = new Retrofit.Builder()
                 .client(builder.build())
@@ -102,5 +106,6 @@ public class RetrofitHelper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
 
 }

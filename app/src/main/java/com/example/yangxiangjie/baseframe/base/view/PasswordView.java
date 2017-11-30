@@ -43,9 +43,11 @@ public class PasswordView extends LinearLayout {
         mShowBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {//显示密码
+                if (isChecked) {
+                    //显示密码
                     mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                } else {//隐藏密码
+                } else {
+                    //隐藏密码
                     mPassword.setInputType(InputType.TYPE_CLASS_TEXT
                             | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }

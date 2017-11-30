@@ -30,12 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextView = (TextView) findViewById(R.id.txt);
         findViewById(R.id.btn_thread).setOnClickListener(this);
         findViewById(R.id.btn_net).setOnClickListener(this);
-//        InputUtil.INSTANCE.showInputMethodService(phoneEditext,1000);
-
-
-//        String tag_test = KDPref.getString(this, KDPref.TAG_TEST);
-//        boolean b = KDPr1ef.getBoolean(this, KDPref.TAG_TEST_BOOL);
-//        KLog.debug("yxjie", "tag_test = " + tag_test+" bool = "+b);
     }
 
 
