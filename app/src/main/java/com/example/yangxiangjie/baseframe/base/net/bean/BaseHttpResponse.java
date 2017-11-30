@@ -2,10 +2,10 @@ package com.example.yangxiangjie.baseframe.base.net.bean;
 
 /**
  * Created by yangxiangjie on 2017/10/30.
- * 网络基本的请求库
+ * 数据回来数据结构
  */
 
-public class BaseHttpBean<T> {
+public class BaseHttpResponse<T> {
 
     private String code;
     private String message;

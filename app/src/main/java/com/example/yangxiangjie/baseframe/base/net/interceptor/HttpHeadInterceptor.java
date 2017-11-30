@@ -1,4 +1,4 @@
-package com.example.yangxiangjie.baseframe.base.net;
+package com.example.yangxiangjie.baseframe.base.net.interceptor;
 
 import android.util.Log;
 
@@ -15,17 +15,16 @@ import okhttp3.Response;
  * 向请求头里添加公共参数
  */
 
-public class HttpCommonInterceptor implements Interceptor {
+public class HttpHeadInterceptor implements Interceptor {
 
     private Map<String, String> mHeaderParamsMap = new HashMap<>();
 
-    public HttpCommonInterceptor() {
-
+    public HttpHeadInterceptor() {
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Log.d("HttpCommonInterceptor", "add common params");
+        Log.d("HttpHeadInterceptor", "add common params");
         Request oldRequest = chain.request();
         // 新的请求
         Request.Builder requestBuilder = oldRequest.newBuilder();
@@ -43,14 +42,14 @@ public class HttpCommonInterceptor implements Interceptor {
     }
 
     public static class Builder {
-        HttpCommonInterceptor mHttpCommonInterceptor;
+        HttpHeadInterceptor mHttpHeadInterceptor;
 
         public Builder() {
-            mHttpCommonInterceptor = new HttpCommonInterceptor();
+            mHttpHeadInterceptor = new HttpHeadInterceptor();
         }
 
         public Builder addHeaderParams(String key, String value) {
-            mHttpCommonInterceptor.mHeaderParamsMap.put(key, value);
+            mHttpHeadInterceptor.mHeaderParamsMap.put(key, value);
             return this;
         }
 
@@ -71,8 +70,8 @@ public class HttpCommonInterceptor implements Interceptor {
         }
 
 
-        public HttpCommonInterceptor build() {
-            return mHttpCommonInterceptor;
+        public HttpHeadInterceptor build() {
+            return mHttpHeadInterceptor;
         }
     }
 }

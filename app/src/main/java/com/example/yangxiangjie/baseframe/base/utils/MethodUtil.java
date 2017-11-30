@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Created by yangxiangjie on 2017/10/30.
+ * 将类属性转化成@QueryMap @FieldMap可用数据
  */
 
 public class MethodUtil {
