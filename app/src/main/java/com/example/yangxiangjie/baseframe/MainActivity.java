@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.yangxiangjie.baseframe.base.net.BaseObserver;
 import com.example.yangxiangjie.baseframe.base.net.RetrofitHelper;
+import com.example.yangxiangjie.baseframe.base.preference.KDPref;
 import com.example.yangxiangjie.baseframe.base.utils.ThreadHelper;
 import com.example.yangxiangjie.baseframe.base.view.PhoneView;
 import com.example.yangxiangjie.baseframe.testbean.NewsDetailService;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextView = (TextView) findViewById(R.id.txt);
         findViewById(R.id.btn_thread).setOnClickListener(this);
         findViewById(R.id.btn_net).setOnClickListener(this);
+
+        boolean b = KDPref.getBoolean(this, KDPref.TAG_TEST_BOOL);
     }
 
 

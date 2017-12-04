@@ -86,10 +86,12 @@ public class RetrofitHelper {
         File httpCacheDirectory = new File(App.getAppContext().getExternalCacheDir(), "Cache");
         builder.cache(new Cache(httpCacheDirectory, 10 * 1024 * 1024));
 
+        OkHttpClient client = builder.build();
+
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
 
         mRetrofit = new Retrofit.Builder()
-                .client(builder.build())
+                .client(client)
                 .baseUrl(Urls.baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -123,6 +125,8 @@ public class RetrofitHelper {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+
 
 
 }
