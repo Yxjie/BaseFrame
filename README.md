@@ -6,7 +6,22 @@
 * 自定义View模块
 
 #### 一.net网络模块简单说明以及使用
+1.BaseHttpResponse<T> 服务器返回数据封装；<br>
+2.BaseObserver Observer 四个回调方法简单处理；<br>
+3.HttpHelper OKHttp简单封装[非Retrofit]；<br>
+4.RetrofitHelper:Rxjava+Retrofit简单分装;<br>
+ 使用方法如下：
+ ```
+  Observable<NewsDetailService.NewsDetail> detailObservable = RetrofitHelper.getInstance().create(NewsDetailService.class).getNewsDetails("api/4/news/"+ID);
+         RetrofitHelper.getInstance().toSubscribe(detailObservable, new BaseObserver<NewsDetailService.NewsDetail>(this, false) {
+             @Override
+             public void onNext(NewsDetailService.NewsDetail newsDetail) {
+                 Log.d(TAG, newsDetail.toString());
+                 mTextView.setText(newsDetail.toString());
+             }
+         });
 
+ ```
  
 #### 二.preference模块说明以及使用
 KDPre工具类【使用方法如下】：<br/>
