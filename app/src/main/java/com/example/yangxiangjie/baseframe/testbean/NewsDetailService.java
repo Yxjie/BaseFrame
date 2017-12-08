@@ -11,7 +11,7 @@ import retrofit2.http.Url;
 /**
  */
 public interface NewsDetailService {
-    @GET("api/4/news/{id}")
+    @GET("http://news-at.zhihu.com/api/4/news/{id}")
     Call<NewsDetail> getNewsDetail(@Path("id") long id);
 
     @GET("api/4/news/{id}")

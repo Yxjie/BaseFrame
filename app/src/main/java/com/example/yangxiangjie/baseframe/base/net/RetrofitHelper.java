@@ -1,10 +1,10 @@
 package com.example.yangxiangjie.baseframe.base.net;
 
 import com.example.yangxiangjie.baseframe.App;
+import com.example.yangxiangjie.baseframe.BuildConfig;
 import com.example.yangxiangjie.baseframe.Config;
+import com.example.yangxiangjie.baseframe.base.net.interceptor.HttpCacheInterceptor;
 import com.example.yangxiangjie.baseframe.base.net.interceptor.HttpHeadInterceptor;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.socks.library.KLog;
 
 import java.io.File;
@@ -13,6 +13,7 @@ import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
@@ -48,7 +49,6 @@ public class RetrofitHelper {
     }
 
     private RetrofitHelper() {
-
         // 创建 OKHttpClient
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //连接超时时间
@@ -64,38 +64,38 @@ public class RetrofitHelper {
                 .build();
         builder.addInterceptor(commonInterceptor);
 
-        //添加日志拦截
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                //打印retrofit日志
-                if (Config.isDebug) {
-                    try {
-                        String msg = URLDecoder.decode(message, "UTF-8");
-                        KLog.json(TAG, msg);
-                    } catch (UnsupportedEncodingException e) {
-                        KLog.json(TAG, message);
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    //打印retrofit日志
+                    if (Config.isDebug) {
+                        try {
+                            String msg = URLDecoder.decode(message, "UTF-8");
+                            KLog.json(TAG, msg);
+                        } catch (UnsupportedEncodingException e) {
+                            KLog.json(TAG, message);
+                        }
                     }
                 }
-            }
-        });
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.addInterceptor(loggingInterceptor);
-
+            });
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(loggingInterceptor);
+        }
+        //添加日志拦截
+        builder.addNetworkInterceptor(new HttpCacheInterceptor());
         //开启缓存  //10M缓存
         File httpCacheDirectory = new File(App.getAppContext().getExternalCacheDir(), "Cache");
         builder.cache(new Cache(httpCacheDirectory, 10 * 1024 * 1024));
 
         OkHttpClient client = builder.build();
-
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
-
         mRetrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(Urls.baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
     }
 
     /**
@@ -118,15 +118,11 @@ public class RetrofitHelper {
         return mRetrofit.create(service);
     }
 
-
-    // TODO: 2017/10/30 后期后期定义一个BaseHttpResponse
-    public <T> void toSubscribe(Observable<T> observable, BaseObserver<T> subscriber) {
+    public <T> void toSubscribe(Observable<T> observable, Observer<T> subscriber) {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-
-
 
 
 }

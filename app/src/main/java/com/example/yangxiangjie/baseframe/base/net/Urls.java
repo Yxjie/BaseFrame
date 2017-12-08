@@ -6,6 +6,7 @@ package com.example.yangxiangjie.baseframe.base.net;
  */
 
 public interface Urls {
-    String baseUrl = "http://news-at.zhihu.com/";
+//    String baseUrl = "http://news-at.zhihu.com/";
+    String baseUrl = "https://sdcr.jisuqianbao.com/api/";
 
 }

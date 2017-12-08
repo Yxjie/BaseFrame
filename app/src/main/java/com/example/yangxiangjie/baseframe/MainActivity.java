@@ -10,12 +10,18 @@ import android.widget.Toast;
 
 import com.example.yangxiangjie.baseframe.base.net.BaseObserver;
 import com.example.yangxiangjie.baseframe.base.net.RetrofitHelper;
-import com.example.yangxiangjie.baseframe.base.preference.KDPref;
+import com.example.yangxiangjie.baseframe.base.net.bean.BaseHttpResponse;
 import com.example.yangxiangjie.baseframe.base.utils.ThreadHelper;
 import com.example.yangxiangjie.baseframe.base.view.PhoneView;
 import com.example.yangxiangjie.baseframe.testbean.NewsDetailService;
+import com.example.yangxiangjie.baseframe.testbean.SDCRApiService;
+import com.example.yangxiangjie.baseframe.testbean.Tags;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -32,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_thread).setOnClickListener(this);
         findViewById(R.id.btn_net).setOnClickListener(this);
 
-        boolean b = KDPref.getBoolean(this, KDPref.TAG_TEST_BOOL);
+//        boolean b = KDPref.getBoolean(this, KDPref.TAG_TEST_BOOL);
     }
 
 
@@ -50,15 +56,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 测试Net请求库
      */
     private void testNet() {
-        Observable<NewsDetailService.NewsDetail> detailObservable = RetrofitHelper.getInstance().create(NewsDetailService.class).getNewsDetails("api/4/news/"+ID);
-        RetrofitHelper.getInstance().toSubscribe(detailObservable, new BaseObserver<NewsDetailService.NewsDetail>(this, false) {
+        NewsDetailService service = RetrofitHelper.getInstance().create(NewsDetailService.class);
+        Observable<NewsDetailService.NewsDetail> details = service.getNewsDetails(ID);
+        RetrofitHelper.getInstance().toSubscribe(details, new Observer<NewsDetailService.NewsDetail>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
             @Override
             public void onNext(NewsDetailService.NewsDetail newsDetail) {
-                Log.d(TAG, newsDetail.toString());
-                mTextView.setText(newsDetail.toString());
+                if (newsDetail != null) {
+                    Log.d(TAG, newsDetail.toString());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
 
+
+        SDCRApiService apiService = RetrofitHelper.getInstance().create(SDCRApiService.class);
+        Observable<BaseHttpResponse<Tags>> tags = apiService.getTags();
+        tags.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<BaseHttpResponse<Tags>>(this, false) {
+                    @Override
+                    public void onSuccess(BaseHttpResponse<Tags> tagsBaseHttpResponse) {
+                        if (tagsBaseHttpResponse != null) {
+                            String message = tagsBaseHttpResponse.getMessage();
+                            mTextView.setText(message);
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(BaseHttpResponse<Tags> tagsBaseHttpResponse) {
+                        if (tagsBaseHttpResponse != null) {
+                            String message = tagsBaseHttpResponse.getMessage();
+                            mTextView.setText(message);
+                        }
+                    }
+                });
 
 //        detailObservable.subscribeOn(Schedulers.io())
 //                .subscribeOn(AndroidSchedulers.mainThread())
@@ -113,14 +158,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        detail.enqueue(new Callback<NewsDetailService.NewsDetail>() {
 //            @Override
 //            public void onResponse(Call<NewsDetailService.NewsDetail> call, Response<NewsDetailService.NewsDetail> response) {
-//                NewsDetailService.NewsDetail newsDetail = response.body();
-//                Log.d(TAG, response.body().toString());
-//                Log.d(TAG, newsDetail.toString());
+//                if (response.isSuccessful()) {
+//                    NewsDetailService.NewsDetail newsDetail = response.body();
+//                    Log.d(TAG, "Looper.myLooper()==Looper.getMainLooper():" + (Looper.myLooper() == Looper.getMainLooper()));
+//                    Log.d(TAG, response.body().toString());
+//                    Log.d(TAG, newsDetail.toString());
+//                }
 //            }
 //
 //            @Override
 //            public void onFailure(Call<NewsDetailService.NewsDetail> call, Throwable t) {
 //                Log.d(TAG, t.getMessage());
+//                Log.d(TAG, "Looper.myLooper()==Looper.getMainLooper():" + (Looper.myLooper() == Looper.getMainLooper()));
 //            }
 //        });
     }
@@ -143,8 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
-
 
 
 }
