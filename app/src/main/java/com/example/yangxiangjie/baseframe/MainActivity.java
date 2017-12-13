@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yangxiangjie.baseframe.base.fragment.BaseDialogFragment;
 import com.example.yangxiangjie.baseframe.base.net.BaseObserver;
 import com.example.yangxiangjie.baseframe.base.net.RetrofitHelper;
 import com.example.yangxiangjie.baseframe.base.net.bean.BaseHttpResponse;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_thread).setOnClickListener(this);
         findViewById(R.id.btn_net).setOnClickListener(this);
 
+        findViewById(R.id.btn_dialog).setOnClickListener(this);
+
 //        boolean b = KDPref.getBoolean(this, KDPref.TAG_TEST_BOOL);
     }
 
@@ -49,7 +52,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             testThread();
         } else if (R.id.btn_net == id) {
             testNet();
+        } else if (R.id.btn_dialog == id) {
+            showDialog();
         }
+    }
+
+    private void showDialog() {
+        BaseDialogFragment fragment = BaseDialogFragment.newInstance();
+        fragment.setMessage("hello yxjie").setOkBtn("OK !!!", new BaseDialogFragment.DialogClickEvent() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "U Click ok", Toast.LENGTH_SHORT).show();
+            }
+        }).setCancelBtn("Cancel ", null);
+//        fragment.setCancelBtn("Cancel ", null);
+        fragment.show(getSupportFragmentManager(), "dialog");
     }
 
     /**

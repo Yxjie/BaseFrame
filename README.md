@@ -67,6 +67,20 @@ boolean b = KDPref.getBoolean(this, KDPref.TAG_TEST_BOOL);
 #### 四.自定义View模块
 该模块自定义View有带有删除按钮的手机输入框，密码输入框以及验证码输入框，主要用于速贷超人项目项目；
 
+#### 五.自定义Dialog【速贷超人弹窗样式】
+ 使用方法：
+ ```
+  BaseDialogFragment fragment = BaseDialogFragment.newInstance();
+         fragment.setMessage("hello yxjie").setOkBtn("OK !!!", new BaseDialogFragment.DialogClickEvent() {
+             @Override
+             public void onClick(View view) {
+                 Toast.makeText(view.getContext(), "U Click ok", Toast.LENGTH_SHORT).show();
+             }
+         }).setCancelBtn("Cancel ", null);
+         fragment.show(getSupportFragmentManager(), "dialog");
+ ```
+
+
 
 
 
